@@ -1,0 +1,24 @@
+1. Wireframing - Draw a rough Sketch of UI 
+2. Functionality
+    * Singup
+    * Signin
+    * Create a channel
+    * Send message in a channel
+    * Join a channel 
+    * Search a channel
+
+3. Data
+    * Users
+    * Channels
+    * Messages
+
+4. UI Components
+    * Sidebar
+        * List of Channels
+        * List of direct messages
+    * Main Container
+        * Header 
+        * Messages
+        * Create Message 
+    * Sign in
+    * Sign up
