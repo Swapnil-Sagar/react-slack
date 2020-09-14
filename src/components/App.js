@@ -1,13 +1,17 @@
-import React from 'react';
-import {Signin} from './'
+import { Signin } from './';
+import React, { Component } from 'react';
 
-function App() {
-  return (
-    <div className="App">
-        Hello to Swapnil World
-        <Signin/>
-    </div>
-  );
+class App extends Component {
+  state = {
+    counter: 1,
+  };
+  render() {
+    return (
+      <div>
+        <Signin />
+      </div>
+    );
+  }
 }
 
 export default App;
