@@ -43,9 +43,9 @@ export const createOrGetUserProfileDocument = async (user) => {
         photoURL: photoURL,
         created_at: new Date(),
       };
-      await userRef.set({});
+      await userRef.set(user);
     } catch (error) {
-      console.log('Error', error);
+      console.log('Error creating user', error.message);
     }
   }
 
@@ -56,7 +56,7 @@ async function getUserDocument(uid) {
   if (!uid) return null;
 
   try {
-    const userDocument = await firestore.collection('user').doc(uid);
+    const userDocument = await firestore.collection('users').doc(uid);
     return userDocument;
   } catch (error) {
     console.error('Error in getUserDocument', error.message);

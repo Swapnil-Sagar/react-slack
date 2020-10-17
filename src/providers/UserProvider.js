@@ -1,20 +1,21 @@
 import React, { Component, createContext } from 'react';
-import { auth, createOrGetUserProfileDocument } from '../firebase';
+import { auth } from '../firebase';
+import { createOrGetUserProfileDocument } from '../firebase';
 
-const initialUserState = { user: null, loading: false };
+const initialUserState = { user: null, loading: true };
 export const UserContext = createContext(initialUserState);
 
-export default class UserProvider extends Component {
+class UserProvider extends Component {
   state = initialUserState;
 
-  async componentDidMount() {
-    //Will be fired whenever you go from logged in to logged out state or vice versa
+  componentDidMount = async () => {
+    /* Will be fired whenever user goes from loggedin to log out state or vice versa */
     auth.onAuthStateChanged(async (userAuth) => {
-      console.log('UserProvided -> componentDidMount -> userAuth');
-
       if (userAuth) {
         const userRef = await createOrGetUserProfileDocument(userAuth);
+        console.log('user-Ref', userRef);
 
+        // Attach listener to listen to user changes in firestore
         userRef.onSnapshot((snapshot) => {
           this.setState({
             user: { uid: snapshot.id, ...snapshot.data() },
@@ -22,14 +23,19 @@ export default class UserProvider extends Component {
           });
         });
       }
+      this.setState({ user: userAuth, loading: false });
     });
-  }
+  };
 
   render() {
+    const { user, loading } = this.state;
+    const { children } = this.props;
     return (
-      <UserContext.Provider value={this.state}>
-        {this.props.children}
+      <UserContext.Provider value={{ user, loading }}>
+        {children}
       </UserContext.Provider>
     );
   }
 }
+
+export default UserProvider;
