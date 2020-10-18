@@ -15,11 +15,11 @@ const firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
+// Auth stuff
 export const auth = firebase.auth();
-export const firestore = firebase.firestore();
 
+const googleProvider = new firebase.auth.GoogleAuthProvider();
 export const signInWithGoogle = () => {
-  const googleProvider = new firebase.auth.GoogleAuthProvider();
   auth.signInWithPopup(googleProvider);
 };
 
@@ -27,38 +27,47 @@ export const signOut = () => {
   auth.signOut();
 };
 
-export const createOrGetUserProfileDocument = async (user) => {
+// Firestore stuff
+export const firestore = firebase.firestore();
+window.firestore = firestore;
+
+export const createOrGetUserProfileDocument = async (user, additionalData) => {
   if (!user) return;
 
+  // check if a the user doc is there in DB with
   const userRef = firestore.doc(`users/${user.uid}`);
   const snapshot = await userRef.get();
 
+  // if no user exists in DB @ path 'userRef' then go and make one
   if (!snapshot.exists) {
-    const { dispplayName, email, photoURL } = user;
+    const { displayName, email, photoURL } = user;
+
+    const createdAt = new Date();
 
     try {
-      const user = {
-        display_name: dispplayName,
+      await userRef.set({
+        display_name: displayName || additionalData.displayName,
         email,
-        photoURL: photoURL,
-        created_at: new Date(),
-      };
-      await userRef.set(user);
+        photo_url: photoURL
+          ? photoURL
+          : 'https://ca.slack-edge.com/T0188513NTW-U01867WD8GK-ga631e27835b-72',
+        created_at: createdAt,
+        ...additionalData,
+      });
     } catch (error) {
-      console.log('Error creating user', error.message);
+      console.error('Error creating user', error.message);
     }
   }
-
   return getUserDocument(user.uid);
 };
 
-async function getUserDocument(uid) {
+export const getUserDocument = async (uid) => {
   if (!uid) return null;
 
   try {
     const userDocument = await firestore.collection('users').doc(uid);
     return userDocument;
   } catch (error) {
-    console.error('Error in getUserDocument', error.message);
+    console.error('Error fetching user', error.message);
   }
-}
+};

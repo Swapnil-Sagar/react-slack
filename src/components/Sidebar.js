@@ -1,18 +1,17 @@
 import React, { Component } from 'react';
-import { signOut } from '../firebase';
+import { signOut, firestore, auth } from '../firebase';
+import { Link } from 'react-router-dom';
 
-export default class Sidebar extends Component {
+class Sidebar extends Component {
   render() {
+    const { channels } = this.props;
     return (
       <div id="sidebar">
         <div className="user-profile">
           <div className="avatar">
-            <img
-              src="https://www.flaticon.com/svg/static/icons/svg/2919/2919600.svg"
-              alt="icon"
-            />
+            <img src="https://www.flaticon.com/svg/static/icons/svg/2919/2919600.svg" />
           </div>
-          <div>Swapnil</div>
+          <div>{auth.currentUser.displayName}</div>
           <div
             style={{ marginLeft: 10, marginTop: 2, cursor: 'pointer' }}
             onClick={signOut}
@@ -29,11 +28,16 @@ export default class Sidebar extends Component {
           <div className="header">Channels</div>
 
           <ul className="channels-list">
-            <li># assignment</li>
-            <li># test</li>
+            {channels.map((channels) => (
+              <li key={channels.id}>
+                <Link to={`/?id=${channels.id}`}># {channels.name}</Link>
+              </li>
+            ))}
           </ul>
         </div>
       </div>
     );
   }
 }
+
+export default Sidebar;
