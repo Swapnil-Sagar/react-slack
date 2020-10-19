@@ -83,6 +83,7 @@ code {
 #sidebar .avatar img {
   height: 40px;
   margin-right: 15px;
+  border-radius: 10px;
 }
 #sidebar .sidebar-spacer {
   border: 0;
