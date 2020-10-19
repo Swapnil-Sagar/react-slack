@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { signOut, firestore, auth } from '../firebase';
+import { signOut, auth } from '../firebase';
 import { Link } from 'react-router-dom';
 
 class Sidebar extends Component {
