@@ -30,7 +30,7 @@ class Sidebar extends Component {
           <ul className="channels-list">
             {channels.map((channels) => (
               <li key={channels.id}>
-                <Link to={`/?id=${channels.id}`}># {channels.name}</Link>
+                <Link to={`/?id=${channels.id}`}>#{channels.name}</Link>
               </li>
             ))}
           </ul>
