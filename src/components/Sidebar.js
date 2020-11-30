@@ -9,7 +9,7 @@ class Sidebar extends Component {
       <div id="sidebar">
         <div className="user-profile">
           <div className="avatar">
-            <img src={auth.currentUser.photoURL} />
+            <img src={auth.currentUser.photoURL} alt="pic" />
           </div>
           <div>{auth.currentUser.displayName}</div>
           <div
@@ -19,6 +19,7 @@ class Sidebar extends Component {
             <img
               src="https://www.flaticon.com/svg/static/icons/svg/2150/2150480.svg"
               height="25"
+              alt="pic"
             />
           </div>
         </div>

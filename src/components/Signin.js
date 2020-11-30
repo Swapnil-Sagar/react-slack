@@ -22,7 +22,11 @@ function SignIn(props) {
       />
       <h3>SLACK</h3>
       <h1>
-        <a href="https://swapnilsagar.netlify.app/" target="_blank">
+        <a
+          href="https://swapnilsagar.netlify.app/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           "By Swapnil Sagar"
         </a>
       </h1>
